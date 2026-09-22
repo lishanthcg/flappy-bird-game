@@ -211,6 +211,11 @@ large_font = font(42)
 medium_font = font(28)
 small_font = font(18)
 tiny_font = font(14)
+retry_font_size = 20
+retry_font = font(retry_font_size)
+while retry_font.size("TRY AGAIN")[0] > 100 and retry_font_size > 12:
+    retry_font_size -= 1
+    retry_font = font(retry_font_size)
 
 
 # ============================================================
@@ -408,7 +413,8 @@ def draw_button(
     rect,
     text,
     mouse_pos,
-    base=(82, 210, 35)
+    base=(82, 210, 35),
+    used_font=medium_font
 ):
     hovered = rect.collidepoint(
         mouse_pos
@@ -450,7 +456,7 @@ def draw_button(
 
     draw_shadow_text(
         text,
-        medium_font,
+        used_font,
         rect.center
     )
 
@@ -1195,7 +1201,8 @@ def draw_game_over():
         restart_button,
         "TRY AGAIN",
         mouse_pos,
-        base=(82, 210, 35)
+        base=(82, 210, 35),
+        used_font=retry_font
     )
 
     draw_text(
@@ -1428,6 +1435,13 @@ async def main():
 
         elif game_state == GAME_OVER:
             draw_game_over()
+
+        if game_state in (MENU, GAME_OVER):
+            draw_shadow_text(
+                "Create by Lishanth",
+                tiny_font,
+                (GAME_WIDTH // 2, GAME_HEIGHT - 30)
+            )
 
         pygame.display.update()
         clock.tick(FPS)
