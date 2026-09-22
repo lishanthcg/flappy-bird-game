@@ -1195,7 +1195,7 @@ def draw_game_over():
         restart_button,
         "TRY AGAIN",
         mouse_pos,
-        base=(82, 150, 35)
+        base=(82, 210, 35)
     )
 
     draw_text(
